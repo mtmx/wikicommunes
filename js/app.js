@@ -310,6 +310,5 @@ var PRlegend = L.control({position: 'topright'});
 		container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
 		position: 'left',     // left or right
 		})
-	 .addTo(mymap)
-	 .open('home');
+	 .addTo(mymap);
 
