@@ -24,6 +24,9 @@ minZoom: 6,
 }).addTo(mymap);
 
 
+mymap.addControl(new L.Control.ZoomMin());
+
+
 ////////////////////////////
 ////// taille points selon zoom
 ////////////////////////////
@@ -50,9 +53,8 @@ if (currentZoom >= 6 & currentZoom < 7) {
 
 
 console.log("Dams Radius" + " " + zoomRadius);
-PA.setStyle(stylePoints_PA)//add this line to change the style
-PR.setStyle(stylePoints_PR)//add this line to change the style
-// points.setStyle(stylePoints)//add this line to change the style
+PA.setStyle(stylePoints_PA)
+PR.setStyle(stylePoints_PR)
 });
 
 
@@ -69,18 +71,22 @@ info.onAdd = function (map) {
 	return this._div;
 };
 
+function nombreFormat(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Informations sur la commune :</h4>' +  (props ?
-		"<p> Commune : " + '<b>' + props.NOM_COM + '</b><br />' +
-		"Population : " + props.population + ' habitants' + "<br>" +
-		"Vues : " + props.vues + "<br>" +
+		"<p>" + '<b>' + props.LIBGEO + '</b><br />' + "<br>" +
+		"Population : " + nombreFormat(props.population) + ' habitants' + "<br>" +
+		"Vues : " + nombreFormat(Math.ceil(props.vues/1000)*1000) + "<br>" +"<br>" +
+		"Rang en nombre de vues : # " + nombreFormat(props.n_vues) + "<br>" +
+		"Rang en nombre d'habitants : # " + nombreFormat(props.n_pop) + "<br>" + "<br>" +
 	"<a target='_blank' href=  '" + "https://fr.wikipedia.org/wiki/" + props.id_wp_acc_req + "'>Fiche wikipedia</a>"
-		: 'Survolez la commune');
+		: 'Cliquez sur une commune');
 };
 
 info.addTo(mymap);
-
-
 
 
 function clickFeature(e) {
@@ -100,13 +106,11 @@ function clickFeature(e) {
 	info.update(layer.feature.properties);
 }
 
-
-
-function resetHighlight(e) {
-	PR.resetStyle(e.target);
-	PAf.resetStyle(e.target);
-	info.update();
-}
+// function resetHighlight(e) {
+// 	PR.resetStyle(e.target);
+// 	PA.resetStyle(e.target);
+// 	info.update();
+// }
 
 function zoomToFeature(e) {
 	mymap.fitBounds(e.target.getBounds());
@@ -116,7 +120,7 @@ function onEachFeature(feature, layer) {
 	layer.on({
 		// mouseover: highlightFeature,
 		click: clickFeature,
-		mouseout: resetHighlight,
+		// mouseout: resetHighlight,
 		// click: zoomToFeature
 	});
 }
@@ -135,6 +139,7 @@ pointToLayer: function (feature, latlng) {
 return L.circleMarker(latlng);
 }
 }).addTo(mymap);
+
 
 var PA = L.geoJSON([communes_infos_wiki], {
 
@@ -196,12 +201,9 @@ function stylePoints_PR(feature) {
 return {
 		color: "white",
 		fillColor: CouleurPopulariteRelative(feature.properties.reg_abs_quant),
-		// fillColor: CouleurPopulariteAbsolue(feature.properties.vues),
-		// radius: zoomRadius,
 		radius: TaillePopulariteAbsolue(feature.properties.vues) * zoomRadius,
-		// radius: TaillePopulariteAbsolue(feature.properties.vues),
-		weight: 0.5,
-		opacity: 1,
+		weight: 0.4,
+		opacity: 0.8,
 		fillOpacity: 1,
 };
 }
@@ -209,19 +211,14 @@ return {
 
 function stylePoints_PA(feature) {
 	return {
-			color: "white",
+			color: "#e5e5e5",
 			fillColor: CouleurPopulariteAbsolue(feature.properties.vues),
-			// radius: zoomRadius,
 			radius: TaillePopulariteAbsolue(feature.properties.vues) * zoomRadius,
-			// radius: TaillePopulariteAbsolue(feature.properties.vues) ,
-			weight: 0.5,
+			weight: 0.8,
 			opacity: 1,
 			fillOpacity: 1,
 	};
 	}
-
-
-
 
 
 
@@ -233,15 +230,15 @@ var PAlegend = L.control({position: 'topright'});
 	PAlegend.onAdd = function (map) {
 		var div = L.DomUtil.create("div", "legend");
 		div.innerHTML += "<h4>Popularité absolue</h4>";
-		div.innerHTML += '<i style="background: #000004FF"></i><span>Très populaire</span><br>';
-		div.innerHTML += '<i style="background: #1D1147FF"></i><span> </span><br>';
-		div.innerHTML += '<i style="background: #51127CFF"></i><span> </span><br>';
-		div.innerHTML += '<i style="background: #822681FF"></i><span>Populaire</span><br>';
-		div.innerHTML += '<i style="background: #B63679FF"></i><span> </span><br>';
-		div.innerHTML += '<i style="background: #E65164FF"></i><span> </span><br>';
-		div.innerHTML += '<i style="background: #FB8861FF"></i><span>Peu populaire</span><br>';
-		div.innerHTML += '<i style="background: #FEC287FF"></i><span> </span><br>';
-		div.innerHTML += '<i style="background: #FCFDBFFF"></i><span> </span><br>';
+		div.innerHTML += '<i style="background: #000004FF"></i><span>> 10 M vues</span><br>';
+		div.innerHTML += '<i style="background: #1D1147FF"></i><span>> 5 M vues </span><br>';
+		div.innerHTML += '<i style="background: #51127CFF"></i><span>> 1 M vues </span><br>';
+		div.innerHTML += '<i style="background: #822681FF"></i><span>> 500 k vues</span><br>';
+		div.innerHTML += '<i style="background: #B63679FF"></i><span>> 200 k vues </span><br>';
+		div.innerHTML += '<i style="background: #E65164FF"></i><span>> 100 k vues </span><br>';
+		div.innerHTML += '<i style="background: #FB8861FF"></i><span>> 50 k vues </span><br>';
+		div.innerHTML += '<i style="background: #FEC287FF"></i><span>> 20 k vues </span><br>';
+		div.innerHTML += '<i style="background: #FCFDBFFF"></i><span>< 20 k vues  </span><br>';
 	
 		return div;
         };
@@ -267,7 +264,6 @@ var PRlegend = L.control({position: 'topright'});
 		return div;
         };
 
-// PRlegend.addTo(mymap);
 
 ////////////////////////////
 ////// layers
@@ -302,29 +298,18 @@ var PRlegend = L.control({position: 'topright'});
 		}
 	})
 
+
 ////////////////////////////
-////// layers v2
+////// sidebar
 ////////////////////////////
 
-// Radio buttons to let the user choose the ethny to use for colors.
-// assignClickListener("Popularité relative", onRadioClick);
-// assignClickListener("Popularité absolue", onRadioClick);
+     // create the sidebar instance and add it to the map
+	 var sidebar = L.control.sidebar({ 
+		autopan: false,       // whether to maintain the centered map point when opening the sidebar
+		closeButton: false,    // whether t add a close button to the panes
+		container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
+		position: 'left',     // left or right
+		})
+	 .addTo(mymap)
+	 .open('home');
 
-// function assignClickListener(id, listener) {
-//   document.getElementById(id).addEventListener("click", listener);
-// }
-
-// function onRadioClick(event) {
-//   var target = event.currentTarget,
-//     selectedChoro = target.id;
-
-//   console.log(selectedChoro);
-//   switch (selectedChoro) {
-//     case "Popularité relative":
-//       points.setStyle(stylePoints_PR);
-//       break;
-//     case "Popularité absolue":
-//       points.setStyle(stylePoints_PA);
-//       break;
-//   };
-// }

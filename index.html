@@ -1,28 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <title>Wikicommunes</title>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <link rel="stylesheet" href="lib/leaflet-sidebar.min.css">
-    <link rel="stylesheet" href="css/wiki_style.css">
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    <script src="lib/leaflet-sidebar.min.js"></script>
+  <title>Wikicommunes</title>
 
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      crossorigin=""/>
+  <link rel="stylesheet" href="lib/L.Control.ZoomMin.css">
+  <link rel="stylesheet" href="lib/leaflet-sidebar.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin=""/>
+  <link rel="stylesheet" href="lib/leaflet-sidebar.min.css">
+  <link rel="stylesheet" href="css/wiki_style.css">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+  <script src="lib/leaflet-sidebar.min.js"></script>
+  <script src="lib/L.Control.ZoomMin.js"></script>
 
   </head>
 
   <body>
+    <div id="sidebar" class="leaflet-sidebar collapsed">
 
+      <!-- nav tabs -->
+      <div class="leaflet-sidebar-tabs">
+          <!-- top aligned tabs -->
+          <ul role="tablist">
+              <li><a href="#home" role="tab"><i class="fa fa-bars active"></i></a></li>
+          </ul>
+
+          <!-- bottom aligned tabs -->
+          <ul role="tablist">
+              <li><a href="https://github.com/mtmx/wikicommunes"><i class="fa fa-github"></i></a></li>
+          </ul>
+      </div>
+
+      <!-- panel content -->
+      <div class="leaflet-sidebar-content">
+          <div class="leaflet-sidebar-pane" id="home">
+              <h1 class="leaflet-sidebar-header">
+                  Popularité des communes sur Wikipedia
+                  <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+              </h1>
+
+              <p>Cette cartographie valorise les communes atypiques, touristiques, étranges ou remarquables : la popularité de chaque commune, approximée par le <b>nombre de vues cumulées sur leur page wikipedia entre 2008 et 2020</b>, permet de placer chacune d’entre elle sur une échelle de l’<b>intensité de curiosité</b> qu’elle suscite aux yeux des internautes francophones, pour des raisons variées. </p>
+              <p>Si la coloration en </b>valeur absolue</b> (légende cliquable à droite) représente directement le nombre de vues sur la page de la commune, celui-ci étant très largement lié à la taille de la commune, la coloration en <b>valeur relative</b> permet de distinguer les communes plus ou moins populaires en proportion de leur nombre d’habitants.</p>
+
+              <p>Une analyse générale et contextualisée de cette carte est disponible dans l’ouvrage de Jérôme Fourquet et Jean-Laurent Cassely intitulé <b>« La France sous nos yeux »</b> paru en octobre 2021 aux éditions du Seuil.</p>
+
+
+              <h2>Méthodologie</h2>
+              <p></p>Le calcul des indicateurs est réalisé via le logiciel R :</p>
+              <ul>
+                  <li>L’ensemble des communes françaises recensées dans <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a> sont identifiées (après un croisement avec le Code Officiel Géographique de l’Insee, seuls les codes communes valides après 2000 sont conservés) via la librairie <a href="https://cran.r-project.org/web/packages/WikidataQueryServiceR/index.html">WikidataQueryServiceR</a>). Les fusions de communes ayant été nombreuses ces dernières années, et les entités fusionnées n’ayant souvent pas d’identité propre, le plus judicieux paraissait de se référer à une définition antérieure contenant un nombre plus important de communes dont le référencement est d’ailleurs plus exhaustif sur Wikipedia (les articles sur d'anciennes communes dorénavant fusionnées sont plus souvent édités et consultés que ceux des communes nouvelles). La liste des communes représentée sur la carte date donc de 2011 et leur population associée recensée par l’Insee date de 2009. </li>
+                  <li>Les hyperliens des articles du domaine francophone de <a href="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal">Wikipedia</a> sont scrapées depuis le site Wikidata et associées à chacune des communes (librairie R <a href="https://cran.r-project.org/web/packages/rvest/index.html">rvest</a>)</li>
+                  <li>Le nombre de vues cumulées sur chaque page Wikipedia entre le 1er janvier 2008 et le 31 décembre 2020 est comptabilisée en utilisant les librairies <a href="https://cran.r-project.org/web/packages/wikipediatrend/index.html">wikipediatrend</a> et <a href="https://cran.rstudio.com/web/packages/pageviews/index.html">pageviews</a>, basées sur l'<a href="https://www.mediawiki.org/wiki/API:Main_page/fr">API WikiMedia</a></li>
+                  <li>Une fois associée les données de <a href="https://www.insee.fr/fr/statistiques/2044741">population Insee</a>, une régression est appliquée entre nombre de vues et nombre d’habitants, et cela pour les communes de moins de 1000 habitants / entre 10 000 et 50 000 habitants, de plus de 50 000 habitants. Pour chaque commune, les résidus normalisés par la population permettent de les séparer en 10 classes de contenance égale.</li>
+                  <li>La cartographie interactive associée est enfin réalisée avec la <a href="https://leafletjs.com/">libraire javascript Leaflet</a>.</li>
+              </ul>
+
+              <p class="lorem">Un grand merci aux outils Wikipedia et Wikidata.</p>
+            </div>
+
+  
+          <div class="leaflet-sidebar-pane" id="messages">
+              <h1 class="leaflet-sidebar-header">Messages<span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+          </div>
+      </div>
+  </div>
     <div id="mapid"></div>
 
   </body>
 
-<!-- <script type="text/javascript" src="data/wd_COMM_GEO.ctr.expleaf.geojson"></script> -->
-<script type="text/javascript" src="data/wd_COMM_GEO.ctr.expleaf.geojson"></script>
+<script type="text/javascript" src="data/data_communes_wp.geojson"></script>
 <script type="text/javascript" src="js/app.js"></script>
 
 </html>
