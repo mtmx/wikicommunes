@@ -23,9 +23,15 @@ maxZoom: 12,
 minZoom: 6, 
 }).addTo(mymap);
 
-
+// bouton zoom emprise max
 mymap.addControl(new L.Control.ZoomMin());
 
+// bouton geoloc
+L.control.locate({
+    strings: {
+        title: "Géolocalisation"
+    }
+}).addTo(mymap);
 
 ////////////////////////////
 ////// taille points selon zoom
@@ -53,8 +59,9 @@ if (currentZoom >= 6 & currentZoom < 7) {
 
 
 console.log("Dams Radius" + " " + zoomRadius);
-PA.setStyle(stylePoints_PA)
-PR.setStyle(stylePoints_PR)
+PA.setStyle(stylePoints_PA)//add this line to change the style
+PR.setStyle(stylePoints_PR)//add this line to change the style
+// points.setStyle(stylePoints)//add this line to change the style
 });
 
 
@@ -87,6 +94,8 @@ info.update = function (props) {
 };
 
 info.addTo(mymap);
+
+
 
 
 function clickFeature(e) {
@@ -201,7 +210,10 @@ function stylePoints_PR(feature) {
 return {
 		color: "white",
 		fillColor: CouleurPopulariteRelative(feature.properties.reg_abs_quant),
+		// fillColor: CouleurPopulariteAbsolue(feature.properties.vues),
+		// radius: zoomRadius,
 		radius: TaillePopulariteAbsolue(feature.properties.vues) * zoomRadius,
+		// radius: TaillePopulariteAbsolue(feature.properties.vues),
 		weight: 0.4,
 		opacity: 0.8,
 		fillOpacity: 1,
@@ -213,12 +225,17 @@ function stylePoints_PA(feature) {
 	return {
 			color: "#e5e5e5",
 			fillColor: CouleurPopulariteAbsolue(feature.properties.vues),
+			// radius: zoomRadius,
 			radius: TaillePopulariteAbsolue(feature.properties.vues) * zoomRadius,
+			// radius: TaillePopulariteAbsolue(feature.properties.vues) ,
 			weight: 0.8,
 			opacity: 1,
 			fillOpacity: 1,
 	};
 	}
+
+
+
 
 
 
@@ -243,8 +260,6 @@ var PAlegend = L.control({position: 'topright'});
 		return div;
         };
 
-
-// var PAlegend = L.control({position: 'bottomright'});
 
 var PRlegend = L.control({position: 'topright'});
 	PRlegend.onAdd = function (map) {
@@ -297,7 +312,6 @@ var PRlegend = L.control({position: 'topright'});
 		PRlegend.addTo(mymap);
 		}
 	})
-
 
 ////////////////////////////
 ////// sidebar
