@@ -29,19 +29,29 @@ html, body, #mapid {
 .info h4 { margin: 0 0 5px; color: #777; }
 
 .legend {
-    line-height: 18px;
+    line-height: 14px;
     color: #555;
 	background: white; 
+	padding: 5px;
+	padding-top: 0px;
+	border-color: #777;
+	border-width: 10px;
 	box-shadow: 0 0 5px rgba(0,0,0,0.2); 
 }
 .legend i {
 	background: white; 
-	background: rgba(255,255,255,0.8); 
 	box-shadow: 0 0 5px rgba(0,0,0,0.2); 
 	border-radius: 10px; 
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     float: left;
     margin-right: 8px;
     opacity: 1;
+	border-color: #777;
+	border-width: 10px;
+}
+
+img{
+    width:100%;
+    max-width:150px;
 }

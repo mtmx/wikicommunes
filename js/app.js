@@ -24,7 +24,13 @@ minZoom: 6,
 }).addTo(mymap);
 
 // bouton zoom emprise max
-mymap.addControl(new L.Control.ZoomMin());
+mymap.addControl(new L.Control.ZoomMin({position:'topleft',
+                                        zoomInText: "+",
+                                        zoomInTitle: "Zoom +",
+                                        zoomOutText: "-",
+                                        zoomOutTitle: "Zoom -",
+                                        zoomMinText: "Zoom France",
+                                        zoomMinTitle: "Zoom France"}));
 
 // bouton geoloc
 L.control.locate({
@@ -84,12 +90,14 @@ function nombreFormat(x) {
 
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Informations sur la commune :</h4>' +  (props ?
-		"<p>" + '<b>' + props.LIBGEO + '</b><br />' + "<br>" +
+		"<p>" + '<big> <b>' + props.LIBGEO + '</big></b><br />' + "<br>" +
 		"Population : " + nombreFormat(props.population) + ' habitants' + "<br>" +
-		"Vues : " + nombreFormat(Math.ceil(props.vues/1000)*1000) + "<br>" +"<br>" +
-		"Rang en nombre de vues : # " + nombreFormat(props.n_vues) + "<br>" +
-		"Rang en nombre d'habitants : # " + nombreFormat(props.n_pop) + "<br>" + "<br>" +
-	"<a target='_blank' href=  '" + "https://fr.wikipedia.org/wiki/" + props.id_wp_acc_req + "'>Fiche wikipedia</a>"
+		"Vues : " + nombreFormat(Math.ceil(props.vues/1000)*1000) + "<br>" +
+		"<small><i>" + "Rang en nombre de vues : # " + nombreFormat(props.n_vues) + "</small></i>" + "<br>" +
+		"<small><i>" + "Rang en nombre d'habitants : # " + nombreFormat(props.n_pop) + "</small></i>" + "<br>" + "<br>" +
+        // "<img src=" + props.url_img + ">" + "<br>" +
+        "<a target='_blank' href=  '" + "https://fr.wikipedia.org/wiki/" + props.id_wp_acc_req + "'><img src=" + props.url_img + "></a>" + "<br>" +
+	    "<a target='_blank' href=  '" + "https://fr.wikipedia.org/wiki/" + props.id_wp_acc_req + "'><img src='img/wiki_large.png'></a>"
 		: 'Cliquez sur une commune');
 };
 
