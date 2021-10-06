@@ -39,6 +39,29 @@ L.control.locate({
     }
 }).addTo(mymap);
 
+
+////////////////////////////
+////// search
+////////////////////////////
+	 
+
+L.control.search({
+	url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+	jsonpParam: 'json_callback',
+	propertyName: 'display_name',
+	propertyLoc: ['lat','lon'],
+	marker: L.circleMarker([0,0],{radius:3, 
+		fillOpacity: 1, 
+		color: '#ffffff', 
+		fillColor: '#ffffff', 
+		weight: 1,}),
+	autoCollapse: true,
+	autoType: false,
+	minLength: 2,
+	zoom: 11
+})
+.addTo(mymap);
+
 ////////////////////////////
 ////// taille points selon zoom
 ////////////////////////////
@@ -113,7 +136,7 @@ function clickFeature(e) {
 		weight: 3,
 		color: 'red',
 		dashArray: '',
-		fillOpacity: 0.7
+		fillOpacity: 1
 	});
 
 	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
