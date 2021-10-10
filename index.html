@@ -33,7 +33,7 @@
 
           <!-- bottom aligned tabs -->
           <ul role="tablist">
-              <li><a href="https://github.com/mtmx/wikicommunes"><i class="fa fa-github"></i></a></li>
+              <li><a target='_blank' href="https://github.com/mtmx/wikicommunes"><i class="fa fa-github"></i></a></li>
           </ul>
       </div>
 
@@ -54,14 +54,14 @@
               <h2>Méthodologie</h2>
               <p></p>Le calcul des indicateurs est réalisé via le logiciel R :</p>
               <ul>
-                  <li>L’ensemble des communes françaises recensées dans <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a> sont identifiées (après un croisement avec le Code Officiel Géographique de l’Insee, seuls les codes communes valides après 2000 sont conservés) via la librairie <a href="https://cran.r-project.org/web/packages/WikidataQueryServiceR/index.html">WikidataQueryServiceR</a>). Les fusions de communes ayant été nombreuses ces dernières années, et les entités fusionnées n’ayant souvent pas d’identité propre, le plus judicieux paraissait de se référer à une définition antérieure contenant un nombre plus important de communes dont le référencement est d’ailleurs plus exhaustif sur Wikipedia (les articles sur d'anciennes communes dorénavant fusionnées sont plus souvent édités et consultés que ceux des communes nouvelles). La liste des communes représentée sur la carte date donc de 2011 et leur population associée recensée par l’Insee date de 2009. </li>
-                  <li>Les hyperliens des articles du domaine francophone de <a href="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal">Wikipedia</a> sont scrapées depuis le site Wikidata et associées à chacune des communes (librairie R <a href="https://cran.r-project.org/web/packages/rvest/index.html">rvest</a>)</li>
-                  <li>Le nombre de vues cumulées sur chaque page Wikipedia entre le 1er janvier 2008 et le 31 décembre 2020 est comptabilisée en utilisant les librairies <a href="https://cran.r-project.org/web/packages/wikipediatrend/index.html">wikipediatrend</a> et <a href="https://cran.rstudio.com/web/packages/pageviews/index.html">pageviews</a>, basées sur l'<a href="https://www.mediawiki.org/wiki/API:Main_page/fr">API WikiMedia</a></li>
-                  <li>Une fois associée les données de <a href="https://www.insee.fr/fr/statistiques/2044741">population Insee</a>, une régression est appliquée entre nombre de vues et nombre d’habitants, et cela pour les communes de moins de 1000 habitants / entre 10 000 et 50 000 habitants, de plus de 50 000 habitants. Pour chaque commune, les résidus normalisés par la population permettent de les séparer en 10 classes de contenance égale.</li>
-                  <li>La cartographie interactive associée est enfin réalisée avec la <a href="https://leafletjs.com/">libraire javascript Leaflet</a>.</li>
+                  <li>L’ensemble des communes françaises recensées dans <a target='_blank' href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a> sont identifiées (après un croisement avec le Code Officiel Géographique de l’Insee, seuls les codes communes valides après 2000 sont conservés) via la librairie <a target='_blank' href="https://cran.r-project.org/web/packages/WikidataQueryServiceR/index.html">WikidataQueryServiceR</a>). Les fusions de communes ayant été nombreuses ces dernières années, et les entités fusionnées n’ayant souvent pas d’identité propre, le plus judicieux paraissait de se référer à une définition antérieure contenant un nombre plus important de communes dont le référencement est d’ailleurs plus exhaustif sur Wikipedia (les articles sur d'anciennes communes dorénavant fusionnées sont plus souvent édités et consultés que ceux des communes nouvelles). La liste des communes représentée sur la carte date donc de 2011 et leur population associée recensée par l’Insee date de 2009. </li>
+                  <li>Les hyperliens des articles du domaine francophone de <a target='_blank' href="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal">Wikipedia</a> sont scrapées depuis le site Wikidata et associées à chacune des communes (librairie R <a target='_blank' href="https://cran.r-project.org/web/packages/rvest/index.html">rvest</a>)</li>
+                  <li>Le nombre de vues cumulées sur chaque page Wikipedia entre le 1er janvier 2008 et le 31 décembre 2020 est comptabilisée en utilisant les librairies <a target='_blank' href="https://cran.r-project.org/web/packages/wikipediatrend/index.html">wikipediatrend</a> et <a target='_blank' href="https://cran.rstudio.com/web/packages/pageviews/index.html">pageviews</a>, basées sur l'<a target='_blank' href="https://www.mediawiki.org/wiki/API:Main_page/fr">API WikiMedia</a></li>
+                  <li>Une fois associée les données de <a target='_blank' href="https://www.insee.fr/fr/statistiques/2044741">population Insee</a>, une régression est appliquée entre nombre de vues et nombre d’habitants, et cela pour les communes de moins de 1000 habitants / entre 10 000 et 50 000 habitants, de plus de 50 000 habitants. Pour chaque commune, les résidus normalisés par la population permettent de les séparer en 10 classes de contenance égale.</li>
+                  <li>La cartographie interactive associée est enfin réalisée avec la <a target='_blank' href="https://leafletjs.com/">libraire javascript Leaflet</a>.</li>
               </ul>
 
-              <p class="lorem">Un grand merci aux outils Wikipedia et Wikidata.</p>
+              <p class="lorem">Un grand merci aux outils Wikipedia / Wikidata, et à leurs contributeurs.</p>
             </div>
 
   
