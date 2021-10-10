@@ -169,15 +169,29 @@ function onEachFeature(feature, layer) {
 ////// appel data
 ////////////////////////////
 
+var affichage_down = {
+	pane: 'overlayPane'
+	};
+var affichage_top = {
+	pane: 'shadowPane'
+};
 
 var PR = L.geoJSON([communes_infos_wiki], {
 
 style: stylePoints_PR,
 onEachFeature: onEachFeature,
-
-pointToLayer: function (feature, latlng) {
+/* pointToLayer: function (feature, latlng) {
 return L.circleMarker(latlng);
-}
+} */
+pointToLayer: function (feature, latlng) {
+        onEachFeature: onEachFeature;
+        if (feature.properties.population > 120000) {
+            return L.circleMarker(latlng, affichage_top)
+        } else {
+            return L.circleMarker(latlng, affichage_down);
+        }
+    }
+	
 }).addTo(mymap);
 
 
@@ -186,10 +200,19 @@ var PA = L.geoJSON([communes_infos_wiki], {
 	style: stylePoints_PA,
 	onEachFeature: onEachFeature,
 	
-	pointToLayer: function (feature, latlng) {
+	/* pointToLayer: function (feature, latlng) {
 	return L.circleMarker(latlng);
+	} */
+pointToLayer: function (feature, latlng) {
+	onEachFeature: onEachFeature;
+	if (feature.properties.population > 120000) {
+		return L.circleMarker(latlng, affichage_top)
+	} else {
+		return L.circleMarker(latlng, affichage_down);
 	}
+}
 })
+
 
 
 
